@@ -1,0 +1,15 @@
+{
+  "name": "AR-Status",
+  "version": "0.1.0",
+  "description": "Armasir server monitoring panel",
+  "main": "server.js",
+  "repository": "",
+  "author": "Alejandro Sanz <alexsm@armasir.com>",
+  "dependencies": {
+    "express": "^4.15.2",
+    "node-telegram-bot-api": "^0.30.0",
+    "pi-gpio": "0.0.8",
+    "pm2": "^2.7.0",
+    "socket.io": "^0.9.17"
+  }
+}

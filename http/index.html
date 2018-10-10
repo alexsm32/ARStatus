@@ -1,0 +1,152 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="http://armasir.com/img/armasir-logo.png">
+	<title>
+		AR-Status
+	</title>
+    <!-- Importo el módulo socket.io que tengo en el proyecto -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="bootstrap/js/jquery.js"></script>
+    <!-- Importo el archivo Javascript de Highcharts directamente desde su servidor -->
+    <!--<script src="http://code.highcharts.com/highcharts.js" type="application/javascript"></script>-->
+    <script src="http://code.highcharts.com/stock/highstock.js"></script>
+    <!-- Latest compiled and minified CSS -->
+<link href="bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="bootstrap/js/bootstrap.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+<script src="js/informacion.js"></script>
+<script src="js/temperatura.js"></script>
+<script src="js/procesador.js"></script>
+<script src="js/memoria.js"></script>
+<script src="js/procesos.js"></script>
+<script src="js/network.js"></script>
+<script src="js/disco.js"></script>
+
+</head>
+<body>
+    <!--menu-->
+      <nav class="navbar navbar-inverse navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu">
+              <span class="sr-only">Menu</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a href="#" class="navbar-brand">AR Status</a>
+          </div>
+          <div class="collapse navbar-collapse" id="menu">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#">Monitorizacion</a></li>
+              <li><a href="control.html">Control</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!--fin menu-->
+      <br><br><br>
+<div class="container">
+
+<div class="row">
+    <div class="col-sm-12 col-md-4">
+    <div class="col-xs-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Informacion General</div>
+            <div class="panel-body">
+                <p  id="p_hostname"><b>Hostname:</b></p>
+                <p  id="p_kernel"><b>Kernel:</b></p>
+                <p  id="p_uptime"></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12">
+        <div class="panel panel-primary">
+        <div class="panel-heading">Usuarios Conectados</div>
+        <div class="panel-body">
+            <div>
+                <ol id="users">
+                </ol>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="col-xs-12">
+        <div class="panel panel-primary">
+        <div class="panel-heading">Espacio en Discos</div>
+        <div class="panel-body pre-scrollable">
+          <table class="table table-responsive table-hover" id="discos">
+
+          </table>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <div class="col-sm-12 col-md-8">
+        <div class="col-xs-12" id="chartMemory" style="min-width: 100; height:250px; margin: 0 auto"></div>
+
+        <div class="col-xs-12">
+        <div class="panel panel-success">
+            <div class="panel-heading">Puertos Abiertos</div>
+            <div class="panel-body pre-scrollable">
+                <table class="table table-responsive table-hover" id="netstat">
+
+            </table>
+            </div>
+        </div>
+        </div>
+      </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12 col-md-4">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Procesos en Ejecucion</div>
+        <div class="panel-body pre-scrollable">
+            <table class="table table-responsive table-hover" id="toplist">
+
+            </table>
+        </div>
+    </div>
+    </div>
+
+    <div class="col-sm-12 col-md-8">
+        <div class="col-xs-12" class="container" id="cpu_usage" style="width:100%; height:300px;"></div>
+      </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="container" id="chart" style="width:100%; height:400px;"></div>
+      </div>
+</div>
+
+</div>
+
+<script>
+    var socket = io.connect('http://'+ location.host +'/moni');
+    var chart, chartCPU, chartMem, memTotal;
+    socket.on('connect', function () {
+    getHostname();
+    getKernel();
+    getUptime();
+    getUsers();
+    getPorts();
+    getProcess();
+    getMem();
+    getCPU();
+    getTemp();
+    getDiscos();
+    });
+</script>
+
+</body>
+</html>
